@@ -8,7 +8,6 @@ class Maze:
 
     def add_cell(self, cell):
         self.maze_dict[cell.id] = cell
-        print(self.maze_dict)
 
     def cell_count(self):
         return len(self.maze_dict)
