@@ -41,3 +41,7 @@ class Maze:
             else:
                 self.maze_dict[idx].bottom_cell = None
         return
+
+    def make_unvisited(self):
+        for item in self.maze_dict.values():
+            item.visited = False
