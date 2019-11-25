@@ -1,4 +1,5 @@
 import pygame
+import random
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0,)
@@ -8,7 +9,7 @@ RED = (255, 0, 0)
 
 class Cell:
     def __init__(self, x, y, screen, width=20, left=True, right=True,
-                 top=True, bottom=True, visited=False, maze_height=200, maze_widht=200):
+                 top=True, bottom=True, visited=False, maze_height=200, maze_width=200):
         self.x = x
         self.y = y
         self.width = width
@@ -18,37 +19,30 @@ class Cell:
         self.bottom = bottom
         self.visited = visited
         self.maze_height = maze_height
-        self.maze_width = maze_widht
+        self.maze_width = maze_width
         self.id = self.maze_height // self.width * (self.y - self.width) // self.width + (self.x - self.width) // self.width
-        if self.x is self.width:
-            self.left_cell = None
-        else:
-            self.left_cell = False
-        if self.x is self.maze_width + self.width:
-            self.right_cell = None
-        else:
-            self.right_cell = False
-        if self.y is self.width:
-            self.top_cell = None
-        else:
-            self.top_cell = False
-        if self.y is self.width + self.maze_height:
-            self.bottom_cell = None
-        else:
-            self.bottom_cell = False
+        self.left_cell = None
+        self.right_cell = None
+        self.top_cell = None
+        self.bottom_cell = None
+        self.neighbors = []
 
-    def update_cell(self, screen):
-        if self.right:
-            pygame.draw.line(screen, WHITE, [self.x + self.width, self.y], [self.x + self.width, self.y + self.width], 6)
-        if self.left:
-            pygame.draw.line(screen, WHITE, [self.x, self.y], [self.x, self.y + self.width], 6)
-        if self.top:
-            pygame.draw.line(screen, WHITE, [self.x, self.y], [self.x + self.width, self.y], 6)
-        if self.bottom:
-            pygame.draw.line(screen, WHITE, [self.x, self.y + self.width], [self.x + self.width, self.y + self.width], 6)
+    def update_cell(self, screen, color=WHITE):
         if self.visited:
-            pygame.draw.rect(screen, BLUE, (self.x + 3, self.y + 3, self.width - 3, self.width - 3))
+            pygame.draw.rect(screen, color, (self.x + self.width // 4, self.y + self.width // 4, self.width // 2, self.width // 2))
 
-    def compare_neighbors(self):
-        if self.left_cell or self.right_cell or self.bottom_cell or self.top_cell is False:
-            return True
+    def check_neighbors(self):
+        for item in self.neighbors:
+            if item is not None:
+                if item.visited is False:
+                    return True
+
+    def choose_neighbor(self):
+        available_neighbors = [item for item in self.neighbors if item.visited is False]
+        chosen_neighbor = random.choice(available_neighbors)
+        return chosen_neighbor
+
+    def remove_wall(self, other, screen):
+        pygame.draw.rect(screen, WHITE, ((self.x + other.x) // 2 + self.width // 4, (self.y + other.y) // 2 + self.width // 4, self.width // 2, self.width // 2))
+
+
