@@ -19,7 +19,7 @@ RED = (255, 0, 0)
 # setup maze variables
 x = 0                    # x axis
 y = 0                    # y axis
-w = 50                   # width of cell
+w = 10                   # width of cell
 maze_height = 400
 maze_width = 400
 
