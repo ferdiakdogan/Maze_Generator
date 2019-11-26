@@ -9,7 +9,7 @@ RED = (255, 0, 0)
 
 class Cell:
     def __init__(self, x, y, width=20, left=True, right=True,
-                 top=True, bottom=True, visited=False, maze_height=200, maze_width=200):
+                 top=True, bottom=True, visited=False, maze_height=200, maze_width=200, id = 0):
         self.x = x
         self.y = y
         self.width = width
@@ -20,22 +20,19 @@ class Cell:
         self.visited = visited
         self.maze_height = maze_height
         self.maze_width = maze_width
-        self.id = self.maze_height // self.width * (self.y - self.width) // self.width + (self.x - self.width) // self.width
+        self.id = id     # self.maze_height // self.width * (self.y - self.width) // self.width + (self.x - self.width) // self.width
         self.left_cell = None
         self.right_cell = None
         self.top_cell = None
         self.bottom_cell = None
         self.neighbors = []
         self.edges = []
+        self.parent = None
+        self.distance = 2000000000
 
     def update_cell(self, screen, color=WHITE):
         if self.visited:
             pygame.draw.rect(screen, color, (self.x + self.width // 4, self.y + self.width // 4, self.width // 2, self.width // 2))
-            # font = pygame.font.Font('freesansbold.ttf', 16)
-            # text = font.render(str(self.id), False, (0, 0, 0))
-            # textRect = text.get_rect()
-            # textRect.center = (self.x + self.width // 2, self.y + self.width // 2)
-            # screen.blit(text, textRect)
 
     def check_neighbors(self):
         for item in self.neighbors:

@@ -30,13 +30,13 @@ class Maze:
                 self.maze_dict[idx].neighbors.append(self.maze_dict[idx].right_cell)
             else:
                 self.maze_dict[idx].right_cell = None
-            if idx >= self.maze_height // self.w:
-                self.maze_dict[idx].top_cell = self.maze_dict[idx - self.maze_height // self.w]
+            if idx >= self.maze_width // self.w:
+                self.maze_dict[idx].top_cell = self.maze_dict[idx - self.maze_width // self.w]
                 self.maze_dict[idx].neighbors.append(self.maze_dict[idx].top_cell)
             else:
                 self.maze_dict[idx].top_cell = None
-            if idx < len(self.maze_dict) - self.maze_height // self.w:
-                self.maze_dict[idx].bottom_cell = self.maze_dict[idx + self.maze_height // self.w]
+            if idx < len(self.maze_dict) - self.maze_width // self.w:
+                self.maze_dict[idx].bottom_cell = self.maze_dict[idx + self.maze_width // self.w]
                 self.maze_dict[idx].neighbors.append(self.maze_dict[idx].bottom_cell)
             else:
                 self.maze_dict[idx].bottom_cell = None
@@ -45,3 +45,9 @@ class Maze:
     def make_unvisited(self):
         for item in self.maze_dict.values():
             item.visited = False
+
+    def clear_paths(self, screen):
+        for item in self.maze_dict.values():
+            item.update_cell(screen, (255, 255, 255))
+            for edge in item.edges:
+                item.make_path(edge, screen, (255, 255, 255))
